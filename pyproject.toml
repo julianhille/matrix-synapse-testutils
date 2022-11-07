@@ -1,0 +1,34 @@
+[project]
+name = "matrix_synapse_testutils"
+version = "1.70.0"
+description = "Testing utils extracted from matrix-synapse to be reused in plugins"
+authors = [
+    {name = "Julian Hille"}
+]
+maintainers = [
+  {name = "Julian Hille"}
+]
+license = {file = "LICENSE"}
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["matrix", "synapse", "testutils"]
+classifiers = [
+    "Topic :: Software Development"
+]
+dependencies = [
+    "matrix-synapse[test]==1.70.0"
+]
+
+[project.urls]
+homepage = "https://github.com/julianhille/matrix-synapse-testutils"
+documentation = "https://github.com/julianhille/matrix-synapse-testutils"
+repository = "https://github.com/julianhille/matrix-synapse-testutils"
+
+[build-system]
+requires = [
+    "build==0.9.0",
+    "setuptools >= 35.0.2",
+    "wheel",
+    "setuptools_scm[toml]>=6.2"
+]
+build-backend = "setuptools.build_meta"

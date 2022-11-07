@@ -1,0 +1,72 @@
+---
+name: Build
+
+'on':
+  push:
+    tags:
+      - 'v*'
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish_latest:
+        description: 'Publish as latest? (true/false)'
+        required: true
+        default: 'false'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: true
+      matrix:
+        python: [3.9]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install build dependency
+        run: pip install build==0.9.0
+      - name: Build dists
+        run: python -m build --sdist --outdir ./dist
+      - name: Build wheel
+        run: pip wheel . --no-deps
+      - uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/*
+          if-no-files-found: error
+  publish:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: assets/
+        id: upload-release-asset
+      - name: Parse semver string
+        id: semver_parser
+        uses: booxmedialtd/ws-action-parse-semver@v1
+        with:
+          input_string: ${{ github.ref }}
+          version_extractor_regex: '\/v(.*)$'
+      - name: Create Release
+        id: create_release
+        uses: ncipollo/release-action@v1
+        if: steps.semver_parser.outputs.fullversion
+        # release might already exist - that's ok then
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          allowUpdates: true
+          artifacts: 'assets/*'
+          tag: 'v${{ steps.semver_parser.outputs.fullversion }}'
+          name: 'v${{ steps.semver_parser.outputs.fullversion }}'
+          draft: false
+          prerelease: steps.semver_parser.outputs.prerelease != []
