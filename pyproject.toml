@@ -1,6 +1,6 @@
 [project]
 name = "matrix_synapse_testutils"
-version = "1.70.0"
+dynamic = ["version"]
 description = "Testing utils extracted from matrix-synapse to be reused in plugins"
 authors = [
     {name = "Julian Hille"}
@@ -23,6 +23,9 @@ dependencies = [
 homepage = "https://github.com/julianhille/matrix-synapse-testutils"
 documentation = "https://github.com/julianhille/matrix-synapse-testutils"
 repository = "https://github.com/julianhille/matrix-synapse-testutils"
+
+[tool.setuptools_scm]
+normalize=true
 
 [build-system]
 requires = [

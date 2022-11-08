@@ -1,0 +1,49 @@
+---
+name: Release
+
+'on':
+  workflow_dispatch:
+    inputs:
+      pypi:
+        description: 'Release production/testing ?'
+        required: true
+        default: 'testing'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    env:
+      python: 3.9
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{ env.python }}
+      - name: Install twine
+        run: pip install twine==4.0.1
+      - name: Extract release
+        id: release_extraction
+        run: echo ${{ github.ref }} | sed 's/refs\///g' | xargs -I{} echo 'tag={}' >> $GITHUB_OUTPUT
+      - uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          version: ${{ steps.release_extraction.outputs.tag }}
+          file: 'matrix_synapse_testutils.*'
+          token: ${{ github.token }}
+          regex: true
+          target: assets/
+      - run: ls assets/
+      - name: Upload to testpypi
+        if: ${{ github.event.inputs.pypi == 'testing' }}
+        run: python -m twine upload assets/*
+        env:
+          TWINE_REPOSITORY: testpypi
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.TESTPYPI_API_TOKEN }}
+      - name: Upload to pypi
+        if: ${{ github.event.inputs.pypi == 'production' }}
+        run: python -m twine upload assets/*
+        env:
+          TWINE_REPOSITORY: pypi
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
