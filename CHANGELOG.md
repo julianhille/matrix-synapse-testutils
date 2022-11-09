@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### [1.70.0.0] - 2022-11-09
+
+### Updated
+
+- Synapse to 1.70.0
+
 ### [1.69.0.0] - 2022-11-09
 
 ### Updated
@@ -42,7 +48,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Location of github action workflow file `build.yml`
 - Fix robustness for matrix-synapse name and packages changes and rebuilding in the same path (updater script)
 
-[unreleased]: https://github.com/conhealth/LifeTime-Desktop/compare/v1.69.0.0...HEAD
+[unreleased]: https://github.com/conhealth/LifeTime-Desktop/compare/v1.70.0.0...HEAD
+[1.70.0.0]: https://github.com/conhealth/LifeTime-Desktop/compare/v1.69.0.0...v1.70.0.0
 [1.69.0.0]: https://github.com/conhealth/LifeTime-Desktop/compare/v1.68.0.0...v1.69.0.0
 [1.68.0.0]: https://github.com/conhealth/LifeTime-Desktop/compare/v1.67.0.0...v1.68.0.0
 [1.67.0.0]: https://github.com/conhealth/LifeTime-Desktop/compare/v1.66.0.0...v1.67.0.0
