@@ -22,20 +22,20 @@ The version of this module always fits the version of its
 respective synapse version.
 
 Synapse version `1.70.0` leads to a version of matrix_synapse_testutils of
-`1.70.0-rev.N`.
+`1.70.0.N`.
 N is a numeric revision number for matrix_synapse_testutils
-starting at 1 for every release of synapse.
+starting at 1 for every release of synapse, just like you would expect.
 
 ## Examples
 
-1.70.0-rev.1
+1.70.0.0
 This means it is the first release of `matrix_synapse_testutils` for synapse 1.70.0
 
-1.70.0-rev.2
+1.70.0.1
 This means it is the second release of `matrix_synapse_testutils` for synapse 1.70.0
 
-1.71.0-rev.1
-This means it is the first release of `matrix_synapse_testutils` for synapse 1.71.0
+1.71.1.0
+This means it is the first release of `matrix_synapse_testutils` for synapse 1.71.1
 
 # Scripts
 
