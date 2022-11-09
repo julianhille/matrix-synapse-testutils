@@ -6,21 +6,25 @@ BUILD_DIR="${SCRIPT_DIR}/../build/"
 SYNAPSE_BUILD_TEST="${BUILD_DIR}/synapse"
 SRC_NAME='matrix_synapse_testutils'
 OUTPUT_DIR="${SCRIPT_DIR}/../${SRC_NAME}/"
-VERSION=${1:-1.70.0}
+VERSION=${1:-1.68.0}
 
 echo 'Building test package for Synapse: '$VERSION
 
+if [ -d "${SYNAPSE_BUILD_TEST}" ]; then
+ mkdir -p "${BUILD_DIR}"
+fi
 
-mkdir build -p
-mkdir "${SYNAPSE_BUILD_TEST}" -p
+if [ -d "${SYNAPSE_BUILD_TEST}" ]; then
+  rm -R "${SYNAPSE_BUILD_TEST}"
+fi
+
+mkdir -p "${SYNAPSE_BUILD_TEST}"
 
 echo 'Downloading ...'
 pip download matrix-synapse=="${VERSION}" --no-binary=matrix-synapse --no-deps -d "${BUILD_DIR}"
 
 echo 'Unpacking ...'
-tar -C "${SYNAPSE_BUILD_TEST}" --strip-components 2 -xvzf "${BUILD_DIR}/matrix_synapse-${VERSION}.tar.gz" "matrix_synapse-${VERSION}/tests/"
-
-rm -R ./$OUTPUT_DIR/*
+tar -C "${SYNAPSE_BUILD_TEST}" --strip-components 2 -xvzf "${BUILD_DIR}"/*-"${VERSION}.tar.gz" --wildcards "*-${VERSION}/tests/"
 
 echo 'Syncing files'
 rsync -zarhv --delete --delete-excluded \
@@ -38,4 +42,4 @@ echo 'Patching files ...'
 find "${OUTPUT_DIR}" -type f -name "*.py" -print0 | xargs -0 sed -E -i 's/(from|import) tests/\1 '${SRC_NAME}'/g'
 
 echo 'Add init py to included directories'
-#find "${OUTPUT_DIR}" -type d -exec touch {}/"__init__.py"  \;
+find "${OUTPUT_DIR}" -type d -exec touch {}/"__init__.py"  \;
