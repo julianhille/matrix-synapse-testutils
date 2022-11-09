@@ -10,3 +10,4 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Fixed
 
 - Location of github action workflow file `build.yml`
+- Fix robustness for matrix-synapse name and packages changes and rebuilding in the same path (updater script)
