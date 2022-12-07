@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Updated
 
-- Synapse to 1.72.0
+- Synapse to 1.73.0
 
 ### [1.72.0.0] - 2022-11-22
 
