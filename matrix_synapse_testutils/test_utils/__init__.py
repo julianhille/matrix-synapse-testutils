@@ -15,24 +15,17 @@
 """
 Utilities for running the unit tests
 """
-import json
 import sys
 import warnings
 from asyncio import Future
 from binascii import unhexlify
-from typing import Awaitable, Callable, Tuple, TypeVar
+from typing import Awaitable, Callable, TypeVar
 from unittest.mock import Mock
 
 import attr
-import zope.interface
 
 from twisted.python.failure import Failure
 from twisted.web.client import ResponseDone
-from twisted.web.http import RESPONSES
-from twisted.web.http_headers import Headers
-from twisted.web.iweb import IResponse
-
-from synapse.types import JsonDict
 
 TV = TypeVar("TV")
 
@@ -104,43 +97,26 @@ def simple_async_mock(return_value=None, raises=None) -> Mock:
     return Mock(side_effect=cb)
 
 
-# Type ignore: it does not fully implement IResponse, but is good enough for tests
-@zope.interface.implementer(IResponse)
-@attr.s(slots=True, frozen=True, auto_attribs=True)
-class FakeResponse:  # type: ignore[misc]
+@attr.s
+class FakeResponse:
     """A fake twisted.web.IResponse object
 
     there is a similar class at treq.test.test_response, but it lacks a `phrase`
     attribute, and didn't support deliverBody until recently.
     """
 
-    version: Tuple[bytes, int, int] = (b"HTTP", 1, 1)
-
     # HTTP response code
-    code: int = 200
+    code = attr.ib(type=int)
+
+    # HTTP response phrase (eg b'OK' for a 200)
+    phrase = attr.ib(type=bytes)
 
     # body of the response
-    body: bytes = b""
-
-    headers: Headers = attr.Factory(Headers)
-
-    @property
-    def phrase(self):
-        return RESPONSES.get(self.code, b"Unknown Status")
-
-    @property
-    def length(self):
-        return len(self.body)
+    body = attr.ib(type=bytes)
 
     def deliverBody(self, protocol):
         protocol.dataReceived(self.body)
         protocol.connectionLost(Failure(ResponseDone()))
-
-    @classmethod
-    def json(cls, *, code: int = 200, payload: JsonDict) -> "FakeResponse":
-        headers = Headers({"Content-Type": ["application/json"]})
-        body = json.dumps(payload).encode("utf-8")
-        return cls(code=code, body=body, headers=headers)
 
 
 # A small image used in some tests.
