@@ -39,7 +39,7 @@ This means it is the first release of `matrix_synapse_testutils` for synapse 1.7
 
 # Scripts
 
-Under `scripts/` is a shell script which does most of the work of updating the
+Under `bin/` is a shell script which does most of the work of updating the
 utilities from synapse.
 It downloads, unpacks, syncs and tries to patch the files from synapse.
 This is far from perfect and might needs manual adaption.

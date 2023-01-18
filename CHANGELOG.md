@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### [1.75.0.0] - 2023-01-18
 
+### Fixed
+
+- Readme fixed spath to update script
+
 ### Updated
 
 - Synapse to 1.75.0
