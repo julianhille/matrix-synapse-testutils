@@ -16,7 +16,7 @@ classifiers = [
     "Topic :: Software Development"
 ]
 dependencies = [
-    "matrix-synapse[test]==1.79.0"
+    "matrix-synapse[test]==1.80.0"
 ]
 
 [project.urls]
