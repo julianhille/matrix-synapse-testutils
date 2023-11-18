@@ -21,7 +21,7 @@ fi
 mkdir -p "${SYNAPSE_BUILD_TEST}"
 
 echo 'Downloading ...'
-pip download matrix-synapse=="${VERSION}" --no-binary=matrix-synapse --no-deps -d "${BUILD_DIR}"
+python -m pip download matrix-synapse=="${VERSION}" --no-binary=matrix-synapse --no-deps -d "${BUILD_DIR}"
 
 echo 'Unpacking ...'
 tar -C "${SYNAPSE_BUILD_TEST}" --strip-components 2 -xvzf "${BUILD_DIR}"/*-"${VERSION}.tar.gz" --wildcards "*-${VERSION}/tests/"
