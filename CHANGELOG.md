@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Updated
 
-- Synapse to 1.92.1 (there is no matrix-synapse 1.92.0)
+- Synapse to 1.92.2
 
 ### [1.92.1.0] - 2023-11-19
 
